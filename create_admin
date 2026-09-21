@@ -1,0 +1,4 @@
+from app.tools.setup_db import main as init_db
+
+if __name__ == "__main__":
+    init_db()
