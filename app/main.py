@@ -25,11 +25,11 @@ app.mount("/documents", StaticFiles(directory="docs"), name="documents")
 # app.mount("/sourcecode", StaticFiles(directory="app"), name="app") # Extremamente inseguro pois permite verificar __pycache__
 
 # ROUTERS
-app.include_router(MISC_ROUTER)
 app.include_router(USERS_ROUTER)
 app.include_router(PACIENTES_ROUTER)
 app.include_router(PROFISSIONAIS_ROUTER)
 app.include_router(CONSULTAS_ROUTER)
+app.include_router(MISC_ROUTER)
 
 
 # MANUAL TESTING

@@ -10,5 +10,10 @@ Para executar o projeto, siga o passo a passo disponível em `/setup.md` e execu
 python3 run
 ```
 
+Para executar a suite de testes do projeto execute:
+```
+python3 -m pytest -v
+```
+
 
  

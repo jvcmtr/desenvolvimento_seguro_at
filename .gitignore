@@ -5,3 +5,6 @@
 # Infra
 .venv
 **/__pycache__/
+
+# Banco de dados
+data/**

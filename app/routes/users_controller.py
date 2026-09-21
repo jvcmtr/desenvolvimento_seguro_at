@@ -6,10 +6,20 @@ from app.models.core.Users import User
 
 router = APIRouter(prefix="/users", tags=["users"])
 
-@router.get("/", response_model=List[User])
+@router.get("/", response_model=List[dict])
 def listar_usuarios(session: Session = Depends(get_session)):
     statement = select(User)
-    return session.exec(statement).all()
+    return [{
+        "id":x.id,
+        "username":x.username,
+        "role":x.role,
+        "created_by": x.created_by,
+        "created_by_user_id": x.created_by_user_id,
+        "created_at": x.created_at,
+        "updated_by": x.updated_by,
+        "updated_by_user_id": x.updated_by_user_id,
+        "updated_at": x.updated_at
+        } for x in session.exec(statement).all() ]
 
 @router.get("/{user_id}", response_model=User)
 def buscar_usuario(user_id: int, session: Session = Depends(get_session)):
