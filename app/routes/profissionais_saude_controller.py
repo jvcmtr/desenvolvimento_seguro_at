@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from app.database.database import get_session
 from app.models.consultas.ProfissionalSaude import ProfissionalSaude
-from app.dtos.profissional_saude_dto import ProfissionalSaudePostModel, ProfissionalSaudeViewModel
+from app.routes.dtos.profissional_saude_dto import ProfissionalSaudePostModel, ProfissionalSaudeViewModel
 
 router = APIRouter(prefix="/profissionais", tags=["profissionais de saude"])
 

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from app.database.database import get_session
 from app.models.core.Users import User
-from .dtos.user_dto import UserPostModel, UserViewModel
+from app.routes.dtos.user_dto import UserPostModel, UserViewModel
 
 router = APIRouter(prefix="/users", tags=["users"])
 

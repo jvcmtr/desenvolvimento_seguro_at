@@ -1,7 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel
 from app.models.consultas.Consulta import Consulta, StatusConsulta
-import paciente_dto.PacienteViewModel, profissional_saude_dto.ProfissionalSaudeViewModel
+from .paciente_dto import PacienteViewModel
+from .profissional_saude_dto import ProfissionalSaudeViewModel
 
 class ConsultaViewModel(BaseModel):
     id: int

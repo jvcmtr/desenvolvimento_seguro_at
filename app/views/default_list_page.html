@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>{{ list_title | default('Registros Encontrados') }}</h2>
+
+    {% if items and items|length > 0 %}
+        <div style="overflow-x: auto;">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        {% for key in items[0].keys() %}
+                            <th>{{ key | replace('_', ' ') | title }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            {% for key, value in item.items() %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p><i>Nenhum registro a ser exibido no momento.</i></p>
+    {% endif %}
+</div>
+{% endblock %}

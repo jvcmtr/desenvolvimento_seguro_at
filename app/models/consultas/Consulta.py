@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from sqlmodel import Field
+from sqlmodel import Field, Relationship
 from app.models.core.AuditResource import AuditResource
 
 # Import para evitar conflito de tabela inxistente ao criar o banco

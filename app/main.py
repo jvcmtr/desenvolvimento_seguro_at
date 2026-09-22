@@ -8,6 +8,7 @@ from app.routes.users_controller import router as USERS_ROUTER
 from app.routes.pacientes_controller import router as PACIENTES_ROUTER
 from app.routes.profissionais_saude_controller import router as PROFISSIONAIS_ROUTER
 from app.routes.consultas_controller import router as CONSULTAS_ROUTER
+from app.routes.pages_controller import router as HTML_ROUTER
 from app.tools.setup_db import setup_db
 
 # CONFIG DB
@@ -29,6 +30,7 @@ app.include_router(USERS_ROUTER)
 app.include_router(PACIENTES_ROUTER)
 app.include_router(PROFISSIONAIS_ROUTER)
 app.include_router(CONSULTAS_ROUTER)
+app.include_router(HTML_ROUTER)
 app.include_router(MISC_ROUTER)
 
 

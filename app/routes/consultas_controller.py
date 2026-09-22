@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 from app.database.database import get_session
 from app.models.consultas.Consulta import Consulta
-from app.dtos.consulta_dto import ConsultaPostModel, ConsultaViewModel
+from app.routes.dtos.consulta_dto import ConsultaPostModel, ConsultaViewModel
 
 router = APIRouter(prefix="/consultas", tags=["consultas"])
 
