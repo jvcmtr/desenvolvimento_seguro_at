@@ -6,6 +6,8 @@ class Settings(BaseSettings):
     ADMIN_PASSWORD: str = "joaoramosadminsenha123"
     IS_DEV: bool = False # Valor defaut é false para evitar erros
 
+    SYSTEM_USER_ID:int  = 1
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
 settings = Settings()

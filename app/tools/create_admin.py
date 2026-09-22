@@ -47,7 +47,7 @@ def create_admin_user(username, password):
             password=hash_pass(password),
             role=UserRole.ADMIN,
             created_by=username,
-            created_by_user_id=1
+            created_by_user_id=settings.SYSTEM_USER_ID
         )
 
         session.add(admin_user)

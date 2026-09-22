@@ -14,6 +14,10 @@ class StatusConsulta(str, Enum):
 
 class Consulta(AuditResource, table=True):
     paciente_id: int = Field(foreign_key="paciente.id")
+    paciente: "Paciente" = Relationship()
+
     profissional_id: int = Field(foreign_key="profissionalsaude.id")
+    profissional: "ProfissionalSaude" = Relationship()
+    
     data_hora: datetime
     status: StatusConsulta = StatusConsulta.AGENDADA
