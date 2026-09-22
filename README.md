@@ -1,10 +1,12 @@
 # Assessment - **Desenvolvimento Seguro de Aplicações Web**
-*Repositorio utilizado para o cumprimento do assessment da disciplina de Desenvolvimento Seguro de Aplicações Web (2026.3T). Por João Ramos.*
+> *Repositorio utilizado para o cumprimento do assessment da disciplina de Desenvolvimento Seguro de Aplicações Web (2026.3T).* 
+>
+> Por João Victor Cicero de M. T. Ramos.
 
-## Documentação e relatório
+### Documentação e relatório
 O relatório referente ao desenvolvimento deste projeto, assim como diagramas e outros documentos relativos ao projeto podem ser encontrados em `/docs/`
 
-## Executando o projeto
+### Executando o projeto
 Para executar o projeto, siga o passo a passo disponível em `/setup.md` e execute o seguinte comando:
 ```
 python3 run
@@ -14,9 +16,11 @@ Para executar a suite de testes do projeto execute:
 ```
 python3 -m pytest -v
 ```
+\-
 
+---
 
-# **Estrutura da Aplicação** (`app/`)
+## **Estrutura da Aplicação** (`app/`)
 
 Pasta principal do projeto contendo codigos python da aplicação. Contém o script de inicialização `main.py` e o arquivo de configuração `config.py` que inicializa as variaveis de ambiente. 
 
@@ -41,7 +45,11 @@ Contém os templates *Jinja2* utilizados para a renderização de paginas html c
 ### `tools/`
 Arquivos contendo script utilitarios para serem usados pelo desenvolvedor. **Não confundir com o diretorio comumente enccontrado em projetos `utils/`**
 
-# **Estrutura do Projeto**
+\-
+
+---
+
+## **Estrutura do Projeto**
 
 ### `data/`
 Diretorio onde é armazenado dados da apicação, incluindo o arquivo do banco de dados e arquivos de log.
