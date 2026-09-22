@@ -5,6 +5,7 @@
 # Infra
 .venv
 **/__pycache__/
+**/.pytest_cache/
 
 # Banco de dados
 data/**
