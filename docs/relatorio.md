@@ -33,3 +33,78 @@ O repositório referente a este AT pode ser encontrado atraves do seguinte link 
 **Evidencia de proteção contra XSS:**
 
 ![/docs/evidencias/evidencia_ex2.png](/docs/evidencias/evidencia_ex2.png)
+
+
+### Exercício 3
+#### Avaliação CIA
+##### Confidencialidade
+O sistema apresenta vulnerabilidades no quesito **Confidencialidade** no sentido em que não apresenta camada de autenticação e permissionamento, fazendo com que informações pessoais possam ser lidas por qualquer usuario, autenticado ou não.
+
+##### Integridade
+O sistema é robusto em termos de **Integridade** boa integridade no sentido em que se utiliza de um banco de dados para operações atomicas, mecanismo de "*soft-delete*" e uma classe base de `AuditResource` que registra datas e usuarios responsáveis por criar, editar e apagar entidades do banco. 
+
+##### Disponbilidade
+O sistema apresenta algumas vulnerabilidades no quesito **Disponibilidade**. Apesar de se utilizar da assincronissidade do framework FastAPI para lidar melhor com requisições simultaneas, A falta de mecanismos de *rate-limiting*, e a falta de paginação nos endpoints de listagem (como `GET /pacientes`) pode deixar o sistema fragil a ataques de negação de serviço.
+
+
+#### Vulnerabilidades OWASP Top 10
+##### A01:2025 Broken Access Control
+> https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/
+
+O sistema não apresenta camada de Autorização/Permissionamento, permitindo que qualquer usuario (cadastrado ou não) realize qualquer operação na API e tenha acesso a qualquer dado cadastrado (com exeção de dados de auditoria). 
+
+
+##### A02:2025 Security Misconfiguration
+> https://top10.owasp.org/2025/A02_2025-Security_Misconfiguration/
+
+O Banco de dados utilizado pelo sistema não possui nenhuma configuração de segurança, o que permite que um usuario malicioso acesse diretamente o banco atravéz da rede.
+
+A API não esta devidamente configurada para o uso do protocolo HTTPS, tornando-a vulneravel a *sniffing* e outros ataques.
+
+##### A04:2025 Cryptografic Failures
+> https://top10.owasp.org/2025/A04_2025-Cryptographic_Failures/
+
+A senhas de usuarios cadastrados não são devidamente criptografadas quando gravadas no banco.
+
+##### A06:2025 Insecure Design
+> https://top10.owasp.org/2025/A06_2025-Insecure_Design/
+
+Não existe documentação definindo os requisitos de segurança da aplicação, os níveis de permição de acesso ou *misuse cases* (até o momento)
+
+##### A09:2025 Security Logging e Alerting Failures
+> https://top10.owasp.org/2025/A09_2025-Security_Logging_and_Alerting_Failures/
+
+A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza ataques aos endpoints.
+
+#### Tust Boundries
+
+**Diagrama contendo os Trust Boundries do sistema:**
+![/docs/diagrams/trust_boundries.png](/docs/diagrams/trust_boundries.png)
+
+
+### Exercício 4
+#### Misuse cases (MU):
+
+##### MU1 - Criação de usuario admin:
+Um usuario malicioso enviar um payload ao endpoint `POST /users` contendo `role: "ADMIN"` para elevar seus privilegios.
+
+##### MU2 - Alterações de consultas de terceiros
+Um usuario malicioso pode utilizar os endpoints `PUT /consultas/` ou `DELETE /consultas` para alterar ou apagar consultas de outros usuarios.
+
+##### MU3 - Leitura de dados de terceiros
+Um usuario malicioso pode acessar os endpoints `GET users/{id}` e `GET /consultas/{id}` para ler informações de terceiros.
+
+#### Avaliação STRIDE
+![Clique aqui para ver o arquivo STRIDE.csv](/docs/STRIDE.csv)
+
+| Identificador | Categoria STRIDE        | Componente      | Ameaça                                                                                                                                                                                                                    |
+| ------------- | ----------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Vuln 01       | Spoofing                | Persistencia    | Um usuario pode alterar seu nome, realizar uma alteração em uma entidade e retornar seu nome ou valor original. Isso fará com que a propriedade `updated_by` fique registrada como tendo sido alterada por outro usuario. |
+| Vuln 02       | Tampering               | Contrato da API | Os endpoints de alteração (`PUT`) e deleção (`DELETE`) não requerem **autenticação** e não possuem mecanismo de **autorização**, Fazendo com que qualquer usuario possa alterar as entidades do sistema.                  |
+| Vuln 03       | Repudiation             | Logica Interna  | O mecanismo de soft delete assim como a classe base de auditoria não são implementados corretamente. O ID do usuario que realiza a operação, é sempre salvo com o mesmo valor.                                            |
+| Vuln 04       | Information Disclosure  | Contrato da API | Os endpoints de leitura e listagem (`GET`) não requerem **autenticação** e não possuem mecanismo de **autorização**, Fazendo com que qualquer usuario possa ler as informações das entidades do sistema.                  |
+| Vunl 05       | Denial of Service (DoS) | Logica Interna  | A falta de mecanismos de *rate-limiting* permitem que um usuario mal intencionado se aproveitando da falta de paginação nos endpoints de listagem de entidades                                                            |
+| vuln 06       | Elevation of Privilege  | Contrato da API | O endpoint de criação  (`POST`) e de alteração (`PUT`) de usuario não realizam nenhum controle o `role=ADMIN`.                                                                                                            |
+
+![Clique aqui para ver o arquivo threat_model.md](/docs/threat_model.md)
+
