@@ -31,27 +31,27 @@ O banco de dados utiliza sqlite e armazena os dados em um arquivo.db
 | vuln 06       | Elevation of Privilege  | Contrato da API | O endpoint de criação  (`POST`) e de alteração (`PUT`) de usuario não realizam nenhum controle o `role=ADMIN`.                                                                                                            |
 
 
-### 4. Mitigações
-#### Mecanismo de Soft-Delete *(Implementado)*
-As rotas `DELETE` não deletam os dados do banco, garantindo a integridade de auditoria.
+# 4. Mitigações
+- ### Mecanismo de Soft-Delete *(Implementado)*
+    As rotas `DELETE` não deletam os dados do banco, garantindo a integridade de auditoria.
 
-#### Restrição na leitura e cadastro de dados *(Implementado)*
-DTOs pydandic são usados para definir as assinaturas dos endpoints, garantindo que os modelos brutos não sejam expostos. 
+- ### Restrição na leitura e cadastro de dados *(Implementado)*
+    DTOs pydandic são usados para definir as assinaturas dos endpoints, garantindo que os modelos brutos não sejam expostos. 
 
-#### Proteção contra injeção SQL *(Implementado)*
-São utilizadas as funções da biblioteca SQLAlchemy e injeção de dependencia para operações no banco, protegendo o sistema contra injeção de SQL para queries no banco.
+- ### Proteção contra injeção SQL *(Implementado)*
+    São utilizadas as funções da biblioteca SQLAlchemy e injeção de dependencia para operações no banco, protegendo o sistema contra injeção de SQL para queries no banco.
 
-#### Proteção contra injeção XSS *(Implementado)*
-Os modelos pydantic, assim como os templates Jinja2 protegem os usuarios contra injeção de scripts maliciosos executaos no browzer do cliente.
+- ### Proteção contra injeção XSS *(Implementado)*
+    Os modelos pydantic, assim como os templates Jinja2 protegem os usuarios contra injeção de scripts maliciosos executaos no browzer do cliente.
 
-#### Classe base de auditoria *(Parcialmente implementado)*
-Uma classe base de auditoria é herdada pelos modelos garantindo que eles possuam campos de auditoria adequado. contudo, o preenchimento destes campos ainda não esta devidamente correto.
+- ### Classe base de auditoria *(Parcialmente implementado)*
+    Uma classe base de auditoria é herdada pelos modelos garantindo que eles possuam campos de auditoria adequado. contudo, o preenchimento destes campos ainda não esta devidamente correto.
 
-#### Mecanismo de autenticação *(⚠NÃO IMPLEMENTADO)*
-O sistema não possui camada de autenticação, permitindo que usuarios não cadastrados realizem operações no sistema.
+- ### Mecanismo de autenticação *(⚠NÃO IMPLEMENTADO)*
+    O sistema não possui camada de autenticação, permitindo que usuarios não cadastrados realizem operações no sistema.
 
-#### Mecanismo de autorização *(⚠NÃO IMPLEMENTADO)*
-O sistema não possui mecanismo de autorização, permitindo que um usuario realize leitura e gravação em entidades de terceiros. 
+- ### Mecanismo de autorização *(⚠NÃO IMPLEMENTADO)*
+    O sistema não possui mecanismo de autorização, permitindo que um usuario realize leitura e gravação em entidades de terceiros. 
 
-#### Mecanismo de rate-limiting *(⚠NÃO IMPLEMENTADO)*
-O sistema não possui mecanismo de *rate-limiting*, ficando vulneravel a ataques de negação de serviço.
+- ### Mecanismo de rate-limiting *(⚠NÃO IMPLEMENTADO)*
+    O sistema não possui mecanismo de *rate-limiting*, ficando vulneravel a ataques de negação de serviço.
