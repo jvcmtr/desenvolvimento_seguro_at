@@ -108,3 +108,42 @@ Um usuario malicioso pode acessar os endpoints `GET users/{id}` e `GET /consulta
 
 ![Clique aqui para ver o arquivo threat_model.md](/docs/threat_model.md)
 
+### Exercício 5
+#### Componentes do sistema:
+- ##### Cliente externo
+    Navegador do cliente que acessa a Interface Swagger, Paginas HTML, e documentação do sistema
+
+- ##### Roteadores e Controladores
+    Controladores REST e responsaveis por renderizar paginas web.
+
+- ##### Modelagem e regras de negocio
+    Modelos, DTOs e a regra de mapeamento entre eles.
+
+- ##### Camada de configuração
+    Arquivos de configuração e variaveis de ambiente, incluindo chave, e url e outras configurações para comunicação com o banco SQLite.
+
+- ##### Banco de dados
+    Banco de dados SQLite e camada de abstração usando a biblioteca SQLAlchemy para realizar operações e consultas no banco.
+
+- ##### Core *(Não implementado)*
+     Classes, midlewares e outras ferramentas utilizadas por outros componentes. Incluindo autenticação, autorização, MFA, algorítimos de hash, logs, dentre outros.
+
+#### Fluxo de dados entre componentes do sistema:
+
+[/docs/diagrams/fluxo_de_dados_entre_componentes.drawio.png](Clique Aqui para acessa o diagrama fluxo_de_dados_entre_componentes)
+
+![/docs/diagrams/fluxo_de_dados_entre_componentes.drawio.png](/docs/evidencias/fluxo_de_dados_entre_componentes.drawio.png)
+
+#### Vetores de ataque:
+##### Autenticação e Autorização
+- As rotas da API não possuem mecanismo de autorização
+- As rotas da API não possuem mecanismo de Autorização ou Logica de permissionamento.
+- Não existe validação sobre o atributo `role` no momento de criação de usuario, permitindo que qualquer usuario seja `role=ADMIN`.
+
+##### Integridade
+- As informações de auditoria não estão sendo inicializadas adequadamente. A logica não é centralizada e utiliza valores default em vez de cadastrar informações de auditoria.
+- Entidades deletadas (com *soft-delete*) não são filtradas no momento da leitura, fazendo com que a funcionalidade de deleção não funcione como o esperado.
+
+##### Infraestrutura
+- Os endpoints de listagem não apresentam mecanismo de paginação ou filtragem, permitindo grandes leituras que podem atrapalhar a disponibilidade do sistema.
+
