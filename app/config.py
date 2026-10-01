@@ -22,6 +22,13 @@ class Settings(BaseSettings):
     LOG_FILE_PATH: str = "./data/joao_ramos_app.log"
     TEST_LOG_FILE_PATH: str = "./data/joao_ramos_app.test.log"
 
+    LOGIN_MAX_ATTEMPTS = 5
+    LOGIN_ATTEMPTS_TIMESPAN_MINUTES = 10 
+    ALLOWED_ORIGINS: list[str] = [
+        "http://localhost:8080",
+        "http://127.0.0.1:8080"
+    ]
+
     
     # Valor defaut é false para evitar erros
     IS_DEV : bool = False

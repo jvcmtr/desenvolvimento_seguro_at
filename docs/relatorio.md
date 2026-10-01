@@ -209,7 +209,10 @@ A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza
 
 
 ## Exercício 10
-
+- CORS Implementado
+- Allowlist setada em variavel de ambiente
+- Cabeçalhos de segurança HSTS, X-Frame-Options e X-Content-Type-Options configurados
+- Rate limiting implementado para o endpoint de login
 
 ## Exercício 11
 - Persistencia de banco de dados com injeção de dependencia já implementada na questão 1

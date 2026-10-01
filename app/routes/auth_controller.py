@@ -5,17 +5,18 @@ from sqlmodel import Session, select
 
 from app.config import settings
 from app.database.database import get_session
-from app.models.core.Users import User
+from app.core.login_rate_limit import check_login_rate_limit
 from app.core.auth import MFA_STORE, create_access_token, register_mfa, verify_password, confirm_mfa_info, get_lab_client
+from app.models.core.Users import User
 from .dtos.core.credentials import MFARequestModel, MFAResponseModel, UserLoginCredentials
 from .dtos.core.M2M import M2MLoginResponseModel
 
-
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
-
 @router.post("/login")
-def login( credentials : UserLoginCredentials, session: Session = Depends(get_session)) -> MFAResponseModel: 
+def login( credentials : UserLoginCredentials, request: Request, session: Session = Depends(get_session)) -> MFAResponseModel: 
+    check_login_rate_limit(request)
+    
     statement = select(User).where(User.username == credentials.username)
     user = session.exec(statement).first()
 
