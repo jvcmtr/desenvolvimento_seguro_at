@@ -49,6 +49,8 @@ O sistema apresenta algumas vulnerabilidades no quesito **Disponibilidade**. Ape
 
 
 ### Vulnerabilidades OWASP Top 10
+OBS: *Consideram se aqui os padrões vulneraveis existentes somente neste momento do trabalho.*
+
 #### A01:2025 Broken Access Control
 > https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/
 
@@ -58,7 +60,7 @@ O sistema não apresenta camada de Autorização/Permissionamento, permitindo qu
 #### A02:2025 Security Misconfiguration
 > https://top10.owasp.org/2025/A02_2025-Security_Misconfiguration/
 
-O Banco de dados utilizado pelo sistema não possui nenhuma configuração de segurança, o que permite que um usuario malicioso acesse diretamente o banco atravéz da rede.
+O Banco de dados utilizado pelo sistema não possui nenhuma configuração de segurança, o que permite que um usuario malicioso acesse diretamente o banco.
 
 A API não esta devidamente configurada para o uso do protocolo HTTPS, tornando-a vulneravel a *sniffing* e outros ataques.
 
@@ -167,3 +169,31 @@ Um usuario malicioso pode acessar os endpoints `GET users/{id}` e `GET /consulta
 - Inclui `CLIENT_SECRET` e `CLIENT_ID` como variaveis de ambiente
 - FLuxo OAuth 2.0 com *claims* e *scopes* implementado
 - Rota exclusiva para integrações M2M `/m2m-ping` implementada
+
+
+## Exercício 8
+**Vulnerabilidades OWASP Top 10**
+
+OBS: *Consideram se aqui os padrões vulneraveis existentes somente neste momento do trabalho.*
+
+#### A01:2025 Broken Access Control
+> https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/
+
+O modelo de permissionamento do sistema centraliza sua logica na entidade criadora do recurso, fazendo com que o paciente ou o proficional de saude não tenham acesso a entidade consulta já que somente um deles pode ter criado a entidade. 
+
+#### A02:2025 Security Misconfiguration
+> https://top10.owasp.org/2025/A02_2025-Security_Misconfiguration/
+
+O Banco de dados utilizado pelo sistema não possui nenhuma configuração de segurança, o que permite que um usuario malicioso acesse diretamente o banco.
+
+A API não esta devidamente configurada para o uso do protocolo HTTPS, tornando-a vulneravel a *sniffing* e outros ataques.
+
+#### A07:2025 Authentication Failures
+> https://top10.owasp.org/2025/A07_2025-Authentication_Failures/
+
+A implementação atual de verificação de MFA usa somente um codigo de 4 digitos, não possui *rate-limiting* e não possui proteção contra sucessos duplicados, tornando o endpoint de verificação de MFA vulneravel à ataques de força bruta.
+
+#### A09:2025 Security Logging e Alerting Failures
+> https://top10.owasp.org/2025/A09_2025-Security_Logging_and_Alerting_Failures/
+
+A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza ataques aos endpoints.

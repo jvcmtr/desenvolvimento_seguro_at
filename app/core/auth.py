@@ -115,7 +115,7 @@ def verify_entity_ownership(resource: AuditResource, current_user: User) -> None
     
     # Somente o criador do recurso ou admin tem a permição de acessar um recurso.
     # Esta logica pode ser melhorada.
-    if AuditResource.created_by_user_id != current_user.id:
+    if resource.created_by_user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Acesso negado"

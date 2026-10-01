@@ -85,10 +85,14 @@ def atualizar_usuario(
 
     verify_entity_ownership(user, current_user)
 
+    if user.password != user_data.password:
+        user_data.password = get_password_hash(user_data.password)
+
     user_data.update(user)
     user.updated_at = datetime.now(timezone.utc)
     user.updated_by_user_id = current_user.id
     user.updated_by = current_user.username
+
 
     session.add(user)
     session.commit()
