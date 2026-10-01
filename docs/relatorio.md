@@ -216,3 +216,4 @@ A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza
 
 ## Exercício 11
 - Persistencia de banco de dados com injeção de dependencia já implementada na questão 1
+- Credenciais carregadas utilizando BaseSettings e arquivo `.env` na questão 1
