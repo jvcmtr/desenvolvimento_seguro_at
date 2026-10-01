@@ -9,7 +9,7 @@ from app.models.consultas.ProfissionalSaude import ProfissionalSaude
 from app.routes.dtos.profissional_saude_dto import ProfissionalSaudePostModel, ProfissionalSaudeViewModel
 
 from app.models.core.Users import User
-from app.core.auth import get_current_user, verify_entity_ownership
+from app.core.auth import get_current_user, verify_entity_ownership, select_owned_entities
 
 router = APIRouter(prefix="/profissionais", tags=["profissionais de saude"])
 
@@ -19,18 +19,10 @@ def listar_profissionais(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
-    statement = select(ProfissionalSaude).where(ProfissionalSaude.deleted_at.is_(None))
+    statement = select_owned_entities(ProfissionalSaude, current_user).where(ProfissionalSaude.deleted_at.is_(None))
     profissionais = session.exec(statement).all()
     
-    temp = []
-    for p in profissionais:
-        try:
-            verify_entity_ownership(p, current_user)
-            temp.append(p)
-        except Exception:
-            continue
-
-    return [ProfissionalSaudeViewModel.create_from(x) for x in temp]
+    return [ProfissionalSaudeViewModel.create_from(x) for x in profissionais]
 
 
 @router.get("/{profissional_id}", response_model=ProfissionalSaudeViewModel)
@@ -61,7 +53,8 @@ def criar_profissional(
     session.add(profissional)
     session.commit()
     session.refresh(profissional)
-    return profissional
+
+    return ProfissionalSaudeViewModel.create_from(profissional)
 
 
 @router.put("/{profissional_id}", response_model=ProfissionalSaude)
@@ -85,7 +78,9 @@ def atualizar_profissional(
     session.add(profissional)
     session.commit()
     session.refresh(profissional)
-    return profissional
+
+    return ProfissionalSaudeViewModel.create_from(profissional)
+
 
 
 @router.delete("/{profissional_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -106,4 +101,5 @@ def deletar_profissional(
     profissional.deleted_by = current_user.username
 
     session.commit()
+
     return None

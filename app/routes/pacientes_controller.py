@@ -8,7 +8,7 @@ from app.models.consultas.Paciente import Paciente
 from app.routes.dtos.paciente_dto import PacientePostModel, PacienteViewModel
 
 from app.models.core.Users import User
-from app.core.auth import get_current_user, verify_entity_ownership
+from app.core.auth import get_current_user, verify_entity_ownership, select_owned_entities
 
 router = APIRouter(prefix="/pacientes", tags=["pacientes"])
 
@@ -18,7 +18,7 @@ def listar_pacientes(
     current_user: User = Depends(get_current_user)
     ):
 
-    statement = select(Paciente).where(Paciente.deleted_at.is_(None))
+    statement = select_owned_entities(Paciente, current_user).where(Paciente.deleted_at.is_(None))
     pacientes = session.exec(statement).all()
     
     temp = []
@@ -63,8 +63,8 @@ def criar_paciente(
     session.add(paciente)
     session.commit()
     session.refresh(paciente)
-    return paciente
-
+  
+    return PacienteViewModel.create_from(paciente)
 
 @router.put("/{paciente_id}", response_model=Paciente)
 def atualizar_paciente(
@@ -88,7 +88,8 @@ def atualizar_paciente(
     session.add(paciente)
     session.commit()
     session.refresh(paciente)
-    return paciente
+
+    return PacienteViewModel.create_from(paciente)
 
 
 @router.delete("/{paciente_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -109,4 +110,5 @@ def deletar_paciente(
     paciente.deleted_by = current_user.username
 
     session.commit()
+
     return None

@@ -1,8 +1,10 @@
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
+from app.core.log_config import logger
+from app.core.auth import decode_jwt, oauth2_scheme
 from app.routes.auth_controller import router as AUTH_ROUTER
 from app.routes.users_controller import router as USERS_ROUTER
 from app.routes.pacientes_controller import router as PACIENTES_ROUTER
@@ -20,6 +22,26 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+
+# MIDDLEWARES
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    
+    response = await call_next(request)
+    sub = "anonymous user"
+    credentials = "NULL"
+    try:
+        credentials = await oauth2_scheme(request)
+        data = decode_jwt(credentials.credentials)
+        sub = data.get("sub", "anonymous user")
+        sub += f" (id={data.get("user_id", "LAB_CLIENT")})"
+    except:
+        pass
+
+    logger.info(f"Method: {request.method} | Path: {request.url.path} | Status: {response.status_code} | User: {sub} | Credentials: {credentials}")
+    return response
+
 
 # STATIC FILES
 app.mount("/static", StaticFiles(directory="static"), name="static")

@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.templating import Jinja2Templates
+from jinja2 import select_autoescape
 from sqlmodel import Session, select
 
 from app.database.database import get_session
+from app.core.jinja_config import templates
 
 from app.models.consultas.Paciente import Paciente
 from app.routes.dtos.paciente_dto import PacientePostModel, PacienteViewModel
@@ -12,10 +14,9 @@ from app.models.consultas.ProfissionalSaude import ProfissionalSaude
 from app.routes.dtos.profissional_saude_dto import ProfissionalSaudePostModel, ProfissionalSaudeViewModel
 
 from app.models.core.Users import User
-from app.core.auth import get_current_user, verify_entity_ownership
+from app.core.auth import get_current_user, verify_entity_ownership, select_owned_entities
 
 router = APIRouter(prefix="/html", tags=["html views"])
-templates = Jinja2Templates(directory="app/views")
 
 # PACIENTES
 @router.get("/pacientes")
@@ -24,18 +25,10 @@ def listar_pacientes(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
-    statement = select(Paciente).where(Paciente.deleted_at.is_(None))
+    statement = select_owned_entities(Paciente, current_user).where(Paciente.deleted_at.is_(None))
     pacientes = session.exec(statement).all()
 
-    temp = []
-    for p in pacientes:
-        try:
-            verify_entity_ownership(p, current_user)
-            temp.append(p)
-        except Exception:
-            continue
-
-    items = [PacienteViewModel.create_from(x).__dict__ for x in temp]
+    items = [PacienteViewModel.create_from(x).__dict__ for x in pacientes]
     return templates.TemplateResponse(
         name="default_list_page.html",
         request=request,
@@ -71,18 +64,10 @@ def listar_consultas(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
-    statement = select(Consulta).where(Consulta.deleted_at.is_(None))
+    statement = select_owned_entities(Consulta, current_user).where(Consulta.deleted_at.is_(None))
     consultas = session.exec(statement).all()
 
-    temp = []
-    for c in consultas:
-        try:
-            verify_entity_ownership(c, current_user)
-            temp.append(c)
-        except Exception:
-            continue
-
-    items = [ConsultaViewModel.create_from(x).__dict__ for x in temp]
+    items = [ConsultaViewModel.create_from(x).__dict__ for x in consultas]
     return templates.TemplateResponse(
         name="default_list_page.html",
         request=request,
@@ -117,18 +102,10 @@ def listar_profissionais(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
-    statement = select(ProfissionalSaude).where(ProfissionalSaude.deleted_at.is_(None))
+    statement = select_owned_entities(ProfissionalSaude, current_user).where(ProfissionalSaude.deleted_at.is_(None))
     profissionais = session.exec(statement).all()
 
-    temp = []
-    for p in profissionais:
-        try:
-            verify_entity_ownership(p, current_user)
-            temp.append(p)
-        except Exception:
-            continue
-
-    items = [ProfissionalSaudeViewModel.create_from(x).__dict__ for x in temp]
+    items = [ProfissionalSaudeViewModel.create_from(x).__dict__ for x in profissionais]
     return templates.TemplateResponse(
         name="default_list_page.html",
         request=request,

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from app.models.core.Users import UserRole, User
 
@@ -17,9 +17,11 @@ class UserViewModel(BaseModel):
 
 
 class UserPostModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    
     id : int | None = None
-    username: str
-    password: str
+    username: str = Field(..., pattern=r"^[a-zA-Z0-9_]{3,20}$")   
+    password: str = Field(..., min_length=3)
     role: UserRole 
 
     def as_model(self) -> User:

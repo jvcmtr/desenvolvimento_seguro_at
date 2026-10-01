@@ -10,7 +10,7 @@ from app.routes.dtos.consulta_dto import ConsultaPostModel, ConsultaViewModel
 
 
 from app.models.core.Users import User
-from app.core.auth import get_current_user, verify_entity_ownership
+from app.core.auth import get_current_user, verify_entity_ownership, select_owned_entities
 
 router = APIRouter(prefix="/consultas", tags=["consultas"])
 
@@ -19,19 +19,10 @@ def listar_consultas(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
-
-    statement = select(Consulta).where(Consulta.deleted_at.is_(None))
+    statement = select_owned_entities(Consulta, current_user).where(Consulta.deleted_at.is_(None))
     consultas = session.exec(statement).all()
-    
-    temp = []
-    for c in consultas:
-        try:
-            verify_entity_ownership(c, current_user)
-            temp.append(c)
-        except Exception:
-            continue
 
-    return [ConsultaViewModel.create_from(x) for x in temp]
+    return [ConsultaViewModel.create_from(x) for x in consultas]
 
 
 @router.get("/{consulta_id}", response_model=ConsultaViewModel)
@@ -62,7 +53,8 @@ def criar_consulta(
     session.add(consulta)
     session.commit()
     session.refresh(consulta)
-    return consulta
+
+    return ConsultaViewModel.create_from(consulta)
 
 
 @router.put("/{consulta_id}", response_model=Consulta)
@@ -86,7 +78,8 @@ def atualizar_consulta(
     session.add(consulta)
     session.commit()
     session.refresh(consulta)
-    return consulta
+
+    return ConsultaViewModel.create_from(consulta)
 
 
 @router.delete("/{consulta_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -107,4 +100,5 @@ def deletar_consulta(
     consulta.deleted_by = current_user.username
 
     session.commit()
+
     return None

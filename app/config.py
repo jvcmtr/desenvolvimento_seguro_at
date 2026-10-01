@@ -16,6 +16,12 @@ class Settings(BaseSettings):
     LAB_CLIENT_SECRET: str = "laboratorio_parceiro_secret"
     LAB_REQUIRED_SCOPE: str = "lab_access"
     LAB_JWT_EXPIRES_IN_MINUTES : int = 60 * 12 # 48h
+
+    LOG_LEVEL_STDOUT: str = "DEBUG"
+    LOG_LEVEL_FILE: str = "INFO"
+    LOG_FILE_PATH: str = "./data/joao_ramos_app.log"
+    TEST_LOG_FILE_PATH: str = "./data/joao_ramos_app.test.log"
+
     
     # Valor defaut é false para evitar erros
     IS_DEV : bool = False
@@ -28,5 +34,11 @@ class Settings(BaseSettings):
         if self.IS_TEST:
             return self.TEST_DATABASE_URL
         return self.DATABASE_URL
+
+    @property
+    def TARGET_LOG_FILE_PATH(self) -> str:
+        if self.IS_TEST:
+            return self.TEST_LOG_FILE_PATH
+        return self.LOG_FILE_PATH
 
 settings = Settings()

@@ -5,9 +5,9 @@ from sqlmodel import Session, select
 
 from app.config import settings
 from app.database.database import get_session
-from app.models.core.Users import User
+from app.models.core.Users import User, UserRole
 from app.routes.dtos.user_dto import UserPostModel, UserViewModel
-from app.core.auth import get_current_user, verify_entity_ownership, get_password_hash
+from app.core.auth import get_current_user, verify_entity_ownership, get_password_hash, select_owned_entities
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -17,18 +17,10 @@ def listar_usuarios(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user)
 ):
-    statement = select(User).where(User.deleted_at.is_(None))
+    statement = select_owned_entities(User, current_user).where(User.deleted_at.is_(None))
     usuarios = session.exec(statement).all()
-    
-    temp = []
-    for u in usuarios:
-        try:
-            verify_entity_ownership(u, current_user)
-            temp.append(u)
-        except Exception:
-            continue
 
-    return [UserViewModel.create_from(x) for x in temp]
+    return [UserViewModel.create_from(x) for x in usuarios]
 
 
 @router.get("/{user_id}", response_model=UserViewModel)
@@ -66,7 +58,8 @@ def criar_usuario(
     session.refresh(user)
     user.created_by_user_id = user.id # Usuario sempre é criado por ele mesmo
     session.commit()
-    return user
+
+    return UserViewModel.create_from(user)
 
 
 @router.put("/{user_id}", response_model=User)
@@ -97,7 +90,8 @@ def atualizar_usuario(
     session.add(user)
     session.commit()
     session.refresh(user)
-    return user
+
+    return UserViewModel.create_from(user)
 
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -118,4 +112,5 @@ def deletar_usuario(
     user.deleted_by = current_user.username
     
     session.commit()
+
     return None

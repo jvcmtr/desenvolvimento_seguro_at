@@ -197,3 +197,19 @@ A implementação atual de verificação de MFA usa somente um codigo de 4 digit
 > https://top10.owasp.org/2025/A09_2025-Security_Logging_and_Alerting_Failures/
 
 A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza ataques aos endpoints.
+
+## Exercício 9
+- A09:2025 Security Logging e Alerting Failures corrigido
+- Validação usando whitelist e regex aplicada nos DTOs
+- Modelos pydantic com `extra='forbid'` aplicados nos DTOs
+- Autoescape Jinja2 configurado em `app/core/jinja_config.py`
+- Implementação de Midleware JWT para manejar logs de requisição
+- Os padrões identificados no exercício 8 se aplicam a todos os endpoints, já que eles foram contruidos utilizando os mesmos padrões de desenvolvimento.
+- Centralizada a logica de permição de leitura para os endpoints de listagem.
+
+
+## Exercício 10
+
+
+## Exercício 11
+- Persistencia de banco de dados com injeção de dependencia já implementada na questão 1

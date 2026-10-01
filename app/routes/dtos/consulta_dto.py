@@ -26,6 +26,8 @@ class ConsultaViewModel(BaseModel):
 
 
 class ConsultaPostModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    
     id: int | None = None
     paciente_id: int
     profissional_id: int
