@@ -150,3 +150,13 @@ Um usuario malicioso pode acessar os endpoints `GET users/{id}` e `GET /consulta
 #### Infraestrutura
 - Os endpoints de listagem não apresentam mecanismo de paginação ou filtragem, permitindo grandes leituras que podem atrapalhar a disponibilidade do sistema.
 
+
+## Exercício 6
+- Login com MFA implementado
+- Rotas protegidas
+- Verificação de ownership adicionada. 
+    > O modelo é uma mistura de RBAC e ABAC, onde usuarios não administradores só podem ler e alterar seus proprios recursos, enquanto administradores tem permissionamento total. 
+- Informações de auditoria sendo carregadas corretamente
+- Ambiente de teste adaptado para usar banco de dados temporario
+- Rota protegida `/adm-ping` adicionada
+- Testes sobre a nova rota adicionados
