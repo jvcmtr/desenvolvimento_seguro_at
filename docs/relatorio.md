@@ -161,3 +161,9 @@ Um usuario malicioso pode acessar os endpoints `GET users/{id}` e `GET /consulta
 - Rota protegida `/adm-ping` adicionada
 - Testes sobre a nova rota adicionados
     > Ambiente de teste adaptado para usar banco de dados temporario. Classe utilitaria criada
+
+
+## Exercício 7
+- Inclui `CLIENT_SECRET` e `CLIENT_ID` como variaveis de ambiente
+- FLuxo OAuth 2.0 com *claims* e *scopes* implementado
+- Rota exclusiva para integrações M2M `/m2m-ping` implementada

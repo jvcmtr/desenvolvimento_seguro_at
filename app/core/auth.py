@@ -18,8 +18,6 @@ JWT_ENCODE_KEY = settings.JWT_ENCODE_KEY
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60*12 # 12h
 
-MFA_EXPIRE_MINUTES = 5
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = HTTPBearer()
 
@@ -33,7 +31,7 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 def create_access_token(data: dict) -> str:
-    expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + timedelta(minutes=settings.USER_JWT_EXPIRES_IN_MINUTES)
     dt = { **data.copy(), "exp": expire }
     return jwt.encode(dt, JWT_ENCODE_KEY, algorithm=ALGORITHM)
 
@@ -44,7 +42,7 @@ def generate_mfa_code() -> str:
 
 def register_mfa(token: str, username: str, user_id: int) -> tuple[str, datetime]:
     mfa_code = generate_mfa_code()
-    expires_at = datetime.now(timezone.utc) + timedelta(minutes=MFA_EXPIRE_MINUTES)
+    expires_at = datetime.now(timezone.utc) + timedelta(minutes=settings.MFA_EXPIRE_MINUTES)
     
     MFA_STORE[user_id] = MFAMetadata(
         dispositivo=username, # AQUI username é utilizado no lugar das informações do dispositivo
@@ -122,3 +120,29 @@ def verify_entity_ownership(resource: AuditResource, current_user: User) -> None
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Acesso negado"
         )
+
+def get_lab_client(auth: HTTPAuthorizationCredentials = Depends(oauth2_scheme)) -> str:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Credenciais M2M inválidas",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(auth.credentials, JWT_ENCODE_KEY, algorithms=[ALGORITHM])
+        
+        # Garantia técnica exigida pelo jurídico (Claims e Escopos)
+        if not payload.get("m2m"):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, 
+                detail="Acesso restrito a integrações M2M"
+            )
+            
+        if settings.LAB_REQUIRED_SCOPE not in payload.get("scopes", []):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, 
+                detail="O cliente não possui o escopo necessário para esta operação"
+            )
+            
+        return payload.get("sub")
+    except Exception:
+        raise credentials_exception

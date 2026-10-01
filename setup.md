@@ -21,7 +21,10 @@ TEST_DATABASE_URL=sqlite:///./data/test_database.db
 
 ADMIN_USERNAME=SEU_USUARIO
 ADMIN_PASSWORD=SUA_SENHA
-JWT_ENCODE_KEY=CHAVE_SECRETA
+
+JWT_ENCODE_KEY=chave_para_encriptar_e_decriptar_token_jwt
+LAB_CLIENT_ID=id_do_laboratorio_parceiro
+LAB_CLIENT_SECRET=secret_do_laboratorio_parceiro
 
 IS_DEV=True
 ```
