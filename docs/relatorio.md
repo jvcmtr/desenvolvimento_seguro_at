@@ -157,6 +157,7 @@ Um usuario malicioso pode acessar os endpoints `GET users/{id}` e `GET /consulta
 - Verificação de ownership adicionada. 
     > O modelo é uma mistura de RBAC e ABAC, onde usuarios não administradores só podem ler e alterar seus proprios recursos, enquanto administradores tem permissionamento total. 
 - Informações de auditoria sendo carregadas corretamente
-- Ambiente de teste adaptado para usar banco de dados temporario
+    > Olhar 'vuln 01', 'vuln 03' e 'vuln 04'
 - Rota protegida `/adm-ping` adicionada
 - Testes sobre a nova rota adicionados
+    > Ambiente de teste adaptado para usar banco de dados temporario. Classe utilitaria criada
