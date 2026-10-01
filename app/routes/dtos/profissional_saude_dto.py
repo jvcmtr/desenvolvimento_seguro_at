@@ -33,7 +33,5 @@ class ProfissionalSaudePostModel(BaseModel):
         profissional.dt_nasc = self.dt_nasc
         profissional.especialidade = self.especialidade
         profissional.registro_profissional = self.registro_profissional
-
-        profissional.updated_at = datetime.now()
         
         return profissional

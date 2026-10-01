@@ -40,7 +40,5 @@ class ConsultaPostModel(BaseModel):
         consulta.profissional_id = self.profissional_id
         consulta.data_hora = self.data_hora
         consulta.status = self.status
-
-        consulta.updated_at = datetime.now()
         
         return consulta

@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 from app.models.consultas.Paciente import Paciente
+from app.models.core.Users import User
 
 class PacienteViewModel(BaseModel):
     id: int
@@ -33,7 +34,5 @@ class PacientePostModel(BaseModel):
         paciente.dt_nasc = self.dt_nasc
         paciente.email = self.email
         paciente.telefone = self.telefone
-
-        paciente.updated_at = datetime.now()
         
         return paciente

@@ -20,6 +20,7 @@ DATABASE_URL=sqlite:///./data/joao_ramos_consultas_database.db
 IS_DEV=True
 ADMIN_USERNAME=SEU_USUARIO
 ADMIN_PASSWORD=SUA_SENHA
+JWT_ENCODE_KEY=CHAVE_SECRETA
 ```
 > **Lembre-se de substituir `ADMIN_USERNAME` e `ADMIN_PASSWORD` pelos valores desejados.**
 

@@ -29,9 +29,5 @@ class UserPostModel(BaseModel):
         user.username = self.username
         user.password = self.password
         user.role = self.role
-
-        user.updated_at = datetime.date()
-        user.updated_by = self.username
-        user.updated_by_user_id = self.id
         
         return user

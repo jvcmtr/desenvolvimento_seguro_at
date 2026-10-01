@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     ADMIN_USERNAME: str = "joaoramos"
     ADMIN_PASSWORD: str = "joaoramosadminsenha123"
     IS_DEV: bool = False # Valor defaut é false para evitar erros
+    JWT_ENCODE_KEY : str = "CHAVE_SECRETA_12345"
 
     SYSTEM_USER_ID:int  = 1
 

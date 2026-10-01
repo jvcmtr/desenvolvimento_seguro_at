@@ -16,3 +16,7 @@ class AuditResource(SQLModel):
     deleted_by: Optional[str] = None
     deleted_by_user_id: Optional[int] = None
     deleted_at: Optional[datetime] = None
+
+    @property
+    def is_deleted(self):
+        return self.deleted_at != None

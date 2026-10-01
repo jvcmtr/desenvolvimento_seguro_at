@@ -3,12 +3,13 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
-from app.routes.misc_controller import router as MISC_ROUTER
+from app.routes.auth_controller import router as AUTH_ROUTER
 from app.routes.users_controller import router as USERS_ROUTER
 from app.routes.pacientes_controller import router as PACIENTES_ROUTER
 from app.routes.profissionais_saude_controller import router as PROFISSIONAIS_ROUTER
 from app.routes.consultas_controller import router as CONSULTAS_ROUTER
 from app.routes.pages_controller import router as HTML_ROUTER
+from app.routes.misc_controller import router as MISC_ROUTER
 from app.tools.setup_db import setup_db
 
 # CONFIG DB
@@ -26,6 +27,7 @@ app.mount("/documents", StaticFiles(directory="docs"), name="documents")
 # app.mount("/sourcecode", StaticFiles(directory="app"), name="app") # Extremamente inseguro pois permite verificar __pycache__
 
 # ROUTERS
+app.include_router(AUTH_ROUTER)
 app.include_router(USERS_ROUTER)
 app.include_router(PACIENTES_ROUTER)
 app.include_router(PROFISSIONAIS_ROUTER)
