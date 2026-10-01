@@ -7,7 +7,7 @@ from app.config import settings
 from app.database.database import get_session
 from app.models.core.Users import User
 from app.routes.dtos.user_dto import UserPostModel, UserViewModel
-from app.core.auth import get_current_user, verify_entity_ownership
+from app.core.auth import get_current_user, verify_entity_ownership, get_password_hash
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -56,6 +56,7 @@ def criar_usuario(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN , detail="Não é possivel elevar os privilegios do usuario")
 
     user = user_dto.as_model()
+    user.password = get_password_hash(user.password) # Hash de senha
     user.created_at = datetime.now(timezone.utc)
     user.created_by = user_dto.username
     user.created_by_user_id = settings.SYSTEM_USER_ID # Valor temporario
@@ -107,7 +108,7 @@ def deletar_usuario(
     
     verify_entity_ownership(user, current_user)
 
-    # soft delete (corrigido bug de datetime.date())
+    # soft delete
     user.deleted_at = datetime.now(timezone.utc)
     user.deleted_by_user_id = current_user.id
     user.deleted_by = current_user.username

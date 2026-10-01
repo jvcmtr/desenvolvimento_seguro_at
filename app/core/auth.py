@@ -5,7 +5,7 @@ from typing import Dict, Optional, Any
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from passlib.context import CryptContext
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from app.config import settings
 from app.database.database import get_session
@@ -79,7 +79,6 @@ def confirm_mfa_info(username:str, code:str ) -> Optional[MFAMetadata]:
 
 
 async def get_current_user(auth: HTTPAuthorizationCredentials = Depends(oauth2_scheme), session: Session = Depends(get_session) ) -> User:
-    
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Credenciais invalidas",
@@ -89,18 +88,16 @@ async def get_current_user(auth: HTTPAuthorizationCredentials = Depends(oauth2_s
     try:
         payload = jwt.decode(auth.credentials, JWT_ENCODE_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-        print(payload)
         if username is None:
             raise credentials_exception
     except Exception as e:
-        print("ERRO")
-        print(e)
         raise credentials_exception
 
-    user = session.query(User).filter(User.username == username).first()
+    user = session.exec(
+        select(User).where(User.username == username)
+    ).first()
+    
     if user is None:
-        print("USER NÃO EXISTE")
-        print(payload)
         raise credentials_exception
 
     mfa_session = MFA_STORE.get(user.id)

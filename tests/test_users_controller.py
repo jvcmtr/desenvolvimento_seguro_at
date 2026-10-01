@@ -1,6 +1,7 @@
-
+from tests.utils import login_as_adm
 
 def test_listar_users_positivo(client):
+    login_as_adm(client)
     response = client.get("/users")
 
     # Assert

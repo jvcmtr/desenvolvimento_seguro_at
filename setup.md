@@ -17,10 +17,13 @@ pip install -r requirements.txt
 Crie um arquivo `.env` na raiz do projeto. segue aqui uma recomendação de variaveis a serem usadas:
 ```.env
 DATABASE_URL=sqlite:///./data/joao_ramos_consultas_database.db
-IS_DEV=True
+TEST_DATABASE_URL=sqlite:///./data/test_database.db
+
 ADMIN_USERNAME=SEU_USUARIO
 ADMIN_PASSWORD=SUA_SENHA
 JWT_ENCODE_KEY=CHAVE_SECRETA
+
+IS_DEV=True
 ```
 > **Lembre-se de substituir `ADMIN_USERNAME` e `ADMIN_PASSWORD` pelos valores desejados.**
 

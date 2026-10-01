@@ -13,6 +13,3 @@ class User(AuditResource, table=True):
     username: str = Field(unique=True, index=True)
     password: str
     role: UserRole = UserRole.NENHUM
-    
-    # Override faz com que todos os usuarios sejam criados pelo sistema
-    created_by_user_id: int = settings.SYSTEM_USER_ID

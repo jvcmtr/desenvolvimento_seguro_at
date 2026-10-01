@@ -1,24 +1,23 @@
 from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from sqlmodel import Session, select
 
 from app.database.database import get_session
 from app.models.core.Users import User
 from app.core.auth import MFA_STORE, create_access_token, register_mfa, verify_password, confirm_mfa_info
-from .dtos.core.credentials import MFARequestModel
+from .dtos.core.credentials import MFARequestModel, MFAResponseModel, UserLoginCredentials
 
 
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
 
 @router.post("/login")
-def login( form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_session)):
-    statement = select(User).where(User.username == form_data.username)
+def login( credentials : UserLoginCredentials, session: Session = Depends(get_session)) -> MFAResponseModel: 
+    statement = select(User).where(User.username == credentials.username)
     user = session.exec(statement).first()
 
-    if not user or not verify_password(form_data.password, user.password):
+    if not user or not verify_password(credentials.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Nome de usuário ou senha incorretos."
@@ -31,12 +30,11 @@ def login( form_data: OAuth2PasswordRequestForm = Depends(), session: Session = 
         user_id=user.id
     )
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "mfa_code": mfa_code,  # Simula a exibição/envio do código ao dispositivo
-        "mfa_expires_at": expires_at
-    }
+    return MFAResponseModel(
+        access_token = access_token,
+        mfa_code = mfa_code,        # Simula a exibição/envio do código ao dispositivo
+        mfa_expires_at = expires_at
+    )
 
 
 @router.post("/confirm-mfa")
