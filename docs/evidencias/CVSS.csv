@@ -1,0 +1,6 @@
+"Categoria STRIDE","Vulnerabilidade","Impacto Indesejado para o Negócio","Score CVSS v3.1"
+"Spoofing","Numero de digitos, falta de 'rate limit' e falta de proteção contra uso duplicado de código de MFA facilitam acessos via força bruta.","Torna a segunda etapa de autenticação facilmente forjada via ataques força bruta.","8.1 (Alto)"
+"Elevation of Privilege / Tampering","Endpoint de criação de usuários não possui autenticação.","Atacantes anônimos podem registrar contas livremente na aplicação com perfis como proficional de saude ou atendente..","8.6 (Alto)"
+"Information Disclosure","Tokens de acesso JWT exibidos nos logs da aplicação.","Sequestro de sessões ativas por atacantes que obtenham acesso ao arquivo de logs.","7.5 (Alto)"
+"Information Disclosure","Exposição pública do diretório de documentos `/documents`.","Qualquer usuário pode acessar a documentaçõa do projeto. O que pode resultar em exposição de informações confidenciais.","5.3 (Médio)"
+"Spoofing / Tampering","Permição de senhas fracas com apenas 3 caracteres.","Torna o sistema vulneravel a ataques"força bruta"","5.3 (Médio)"

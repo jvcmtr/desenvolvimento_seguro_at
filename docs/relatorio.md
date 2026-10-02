@@ -217,3 +217,42 @@ A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza
 ## Exercício 11
 - Persistencia de banco de dados com injeção de dependencia já implementada na questão 1
 - Credenciais carregadas utilizando BaseSettings e arquivo `.env` na questão 1
+
+## Exercício 12
+### Ferramentas de análize utilizadas em cada etapa SDLC
+- #### SCA: Analize de dependencia
+    Deve ser a atuar na etapa de CI (integração continua). Isso porque a analize de dependencias atua sobre as bibliotecas do sistema em busca de vulnerabilidades conhecidas, podendo atuar antes do build ou execução do programa.
+- #### SAST: Análize estática
+    Deve atuar na etapa de CI (integração continua). Isso porque a analize estática analiza o proprio código fonte e, sendo assim, consegue prever vulnerabilidades sem que o app seja construido ou executado.
+- #### DAST: Analize dinamica:
+    Deve atuar na etapa de CD (deploy continuo), em ambientes de teste ou QA. Isso porque a analize dinamica nescessita que a aplicação esteja em execução para que possa identificar falhas de configuração na contrução e deploy do sistema.
+- #### IAST: Analize interativa:
+    Deve atuar na etapa de CD (deploy continuo), em ambientes de teste ou QA. Isso porque a analize interativa inclui de agentes e testes black-box, nescessitando que a aplicação esteja rodando. 
+
+### CVSS
+> Fonte para o calculo do CVSS: https://www.first.org/cvss/calculator/3.0
+
+OBS: *Consideram se aqui os padrões vulneraveis existentes somente neste momento do trabalho.*
+
+![Clique aqui para ver o arquivo CVSS.csv](/docs/CVSS.csv)
+
+|   Categoria STRIDE                         | Vulnerabilidade                                                                                                                         |   Impacto Indesejado para o Negócio                                                                                     |   Score CVSS v3.1   |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------- |
+|   Spoofing                                 | Numero de digitos, falta de "*rate limit*" e falta de proteção contra uso duplicado de código de MFA facilitam acessos via força bruta. | Torna a segunda etapa de autenticação facilmente forjada via ataques força bruta.                                       |   8.1 (Alto)        |
+|   Elevation of Privilege   /   Tampering   | Endpoint de criação de usuários não possui autenticação.                                                                                | Atacantes anônimos podem registrar contas livremente na aplicação com perfis como proficional de saude ou atendente.    |   8.6 (Alto)        |
+|   Information Disclosure                   | Tokens de acesso JWT exibidos nos logs da aplicação.                                                                                    | Sequestro de sessões ativas por atacantes que obtenham acesso ao arquivo de logs.                                       |   7.5 (Alto)        |
+|   Information Disclosure                   | Exposição pública do diretório de documentos `/documents`.                                                                              | Qualquer usuário pode acessar a documentaçõa do projeto. O que pode resultar em exposição de informações confidenciais. |   5.3 (Médio)       |
+|   Spoofing   /   Tampering                 | Permição de senhas fracas com apenas 3 caracteres.                                                                                      | Torna o sistema vulneravel a ataques "força bruta"                                                                      |   5.3 (Médio)       |
+
+
+### Construção da pipeline 
+- Pipeline CI incluindo analize estatica e de dependencia   
+- Github action criada.
+ 
+##### Criterio de bloqueio
+O pipeline será bloqueado apenas para vulnerabilidades classificadas como altas e criticas.
+
+##### Evidencias: 
+[Clique aqui acessar os detalhes do workflow no github](https://github.com/jvcmtr/desenvolvimento_seguro_at/actions/runs/36962826606)
+
+![/docs/evidencias/evidencia_ci_pipeline.png](/docs/evidencias/evidencia_ci_pipeline.png)
