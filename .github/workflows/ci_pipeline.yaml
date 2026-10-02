@@ -34,7 +34,7 @@ jobs:
         run: pip-audit -r requirements.txt
 
       - name: Security Gate 2 - SAST
-        run: bandit -r app/ -c bandit.yaml -lll -iii
+        run: bandit -r app/ -lll -iii
 
   unit-tests:
     name: Executa Pytest
