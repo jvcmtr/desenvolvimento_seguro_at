@@ -249,10 +249,12 @@ OBS: *Consideram se aqui somente as vulneraveis existentes neste momento do trab
 - Pipeline CI incluindo analize estatica e de dependencia   
 - Github action criada.
  
-##### Criterio de bloqueio
+#### Criterio de bloqueio
 O pipeline será bloqueado apenas para vulnerabilidades classificadas como altas e criticas.
 
-##### Evidencias: 
+#### Evidencias: 
 [Clique aqui acessar os detalhes do workflow no github](https://github.com/jvcmtr/desenvolvimento_seguro_at/actions/runs/36962826606)
 
 ![/docs/evidencias/evidencia_ci_pipeline.png](/docs/evidencias/evidencia_ci_pipeline.png)
+
+## Exercício 13

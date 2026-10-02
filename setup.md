@@ -18,21 +18,9 @@ pip install -r requirements.test.txt
 ```
 
 # 3. Configure as variaveis locais
-Crie um arquivo `.env` na raiz do projeto. segue aqui uma recomendação de variaveis a serem usadas:
-```.env
-DATABASE_URL=sqlite:///./data/joao_ramos_consultas_database.db
-TEST_DATABASE_URL=sqlite:///./data/test_database.db
+Crie um arquivo `.env` na raiz do projeto e insira as valores adequados para a sua utilização. Caso nescessário, você pode encontrar um exemplo das variaveis da aplicação no arquivo `.env.exemple`, disponivel na raiz do projeto.
 
-ADMIN_USERNAME=SEU_USUARIO
-ADMIN_PASSWORD=SUA_SENHA
-
-JWT_ENCODE_KEY=chave_para_encriptar_e_decriptar_token_jwt
-LAB_CLIENT_ID=id_do_laboratorio_parceiro
-LAB_CLIENT_SECRET=secret_do_laboratorio_parceiro
-
-IS_DEV=True
-```
-> **Lembre-se de substituir `ADMIN_USERNAME` e `ADMIN_PASSWORD` pelos valores desejados.**
+> **Lembre-se de incluir as informações de login em `ADMIN_USERNAME` e `ADMIN_PASSWORD`.**
 
 
 ## 4. (opcional) Configure um usuario admin
