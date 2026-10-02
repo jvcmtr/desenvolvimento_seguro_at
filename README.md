@@ -52,6 +52,8 @@ Arquivos contendo script utilitarios para serem usados pelo desenvolvedor. **Nã
 ---
 
 ## **Estrutura do Projeto**
+### `app/`
+Diretorio contendo o código fonte da aplicação python FastAPI.
 
 ### `data/`
 Diretorio onde é armazenado dados da apicação, incluindo o arquivo do banco de dados e arquivos de log.
