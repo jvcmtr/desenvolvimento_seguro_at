@@ -1,0 +1,61 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "prd" ]
+  pull_request:
+    branches: [ "prd" ]
+
+env:
+  ENVIRONMENT: ${{ vars.ENVIRONMENT  }}
+  TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+  ADMIN_USERNAME: ${{ secrets.TEST_ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.TEST_ADMIN_PASSWORD }}
+  IS_TEST: True
+
+jobs:
+  security_gates:
+    name: Static Analysis & Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: configurar python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Instala dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.security.txt
+
+      - name: Security Gate 1 : SCA
+        run: safety check -r requirements.txt --full-report
+
+      - name: Security Gate 2 : SAST
+        run: bandit -r app/ -c bandit.yaml -lll -iii
+
+  unit-tests:
+    name: Run Pytest
+    runs-on: ubuntu-latest
+    needs: security-sast-sca
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: configurar python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Instala dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements.test.txt
+
+      - name: Executar testes
+        run: |
+          python3 -m pytest -v

@@ -8,9 +8,13 @@ source .venv/bin/activate
 ```
 
 ## 2. Instale as dependencias
-Execute o pip nas dependencias listadas em `requirements.txt`
+Execute o pip nas dependencias listadas em `requirements.txt` para instalar as bibliotecas nescessarias para a execução da aplicação.
 ```
 pip install -r requirements.txt
+```
+Caso queira executar **testes localmente**, instale também as dependencias de teste disponiveis em ``requirements.testes.txt``:
+```
+pip install -r requirements.test.txt
 ```
 
 # 3. Configure as variaveis locais
@@ -32,7 +36,7 @@ IS_DEV=True
 
 
 ## 4. (opcional) Configure um usuario admin
-O banco de dados contendo um usuario asmin é automaticamente criado quando o projeto é executado, contudo, caso seja nescessario criar um novo usuario admin execute o seguinte comando:
+O banco de dados contendo um usuario admin é automaticamente criado quando o projeto é executado, contudo, caso seja nescessario criar um novo usuario admin execute o seguinte comando:
 ``` python
 python3 create_admin
 ```
