@@ -3,12 +3,12 @@
 >
 > Por João Victor Cicero de M. T. Ramos.
 
-### Documentação e relatório
+## Documentação e relatório
 O relatório referente ao desenvolvimento deste projeto, assim como diagramas e outros documentos relativos ao projeto podem ser encontrados em `/docs/`.
 
 > [Clique aqui para ler o relatorio](/docs/relatorio.md)
 
-### Executando o projeto
+## Executando o projeto
 Para executar o projeto, siga o passo a passo disponível em `/setup.md` e execute o seguinte comando:
 ```
 python3 run
@@ -18,7 +18,7 @@ Para executar a suite de testes do projeto execute:
 ```
 python3 -m pytest -v
 ```
-\-
+
 
 ---
 
