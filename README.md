@@ -3,12 +3,14 @@
 >
 > Por João Victor Cicero de M. T. Ramos.
 
-## Documentação e relatório
-O relatório referente ao desenvolvimento deste projeto, assim como diagramas e outros documentos relativos ao projeto podem ser encontrados em `/docs/`.
+\-
 
-> [Clique aqui para ler o relatorio](/docs/relatorio.md)
+### Documentação e relatório
+O relatório referente ao desenvolvimento deste projeto, assim como diagramas e outros documentos relativos ao projeto podem ser encontrados em `/docs/`. 
 
-## Executando o projeto
+- [Clique aqui para ler o relatorio do Assessment](/docs/relatorio.md)
+
+### Executando o projeto
 Para executar o projeto, siga o passo a passo disponível em `/setup.md` e execute o seguinte comando:
 ```
 python3 run
@@ -19,6 +21,32 @@ Para executar a suite de testes do projeto execute:
 python3 -m pytest -v
 ```
 
+\-
+
+---
+
+## **Estrutura do Repositório**
+### `app/`
+Diretorio contendo o código fonte da aplicação python FastAPI.
+
+### `data/`
+Diretorio onde é armazenado dados da apicação, incluindo o arquivo do banco de dados e arquivos de log.
+
+### `docs/`
+Diretorio contendo a maior parte da documentação do projeto, incluindo respostas às questões do assessment e evidencias da execução dos exercícios. Pode ser acessado via API atravéz de `/documents/`
+
+### `static/`
+Contém arquivos estáticos utilizados pelos templates `Jinja2` como imagens e arquivos css
+
+### `tests/`
+Contem a camada de teste da aplicação
+
+### Outros arquivos relevantes:
+- **`setup.md`** : Guia para o setup local do projeto.
+- **`requirements.txt`** : Lista as dependencias do projeto, incluindo versionamento.
+- `run` e `create_admin` : scripts para rodar a aplicação e criar um usuario, respectivamente.
+
+\-
 
 ---
 
@@ -50,26 +78,4 @@ Arquivos contendo script utilitarios para serem usados pelo desenvolvedor. **Nã
 \-
 
 ---
-
-## **Estrutura do Projeto**
-### `app/`
-Diretorio contendo o código fonte da aplicação python FastAPI.
-
-### `data/`
-Diretorio onde é armazenado dados da apicação, incluindo o arquivo do banco de dados e arquivos de log.
-
-### `docs/`
-Diretorio contendo a maior parte da documentação do projeto, incluindo respostas às questões do assessment e evidencias da execução dos exercícios. Pode ser acessado via API atravéz de `/documents/`
-
-### `static/`
-Contém arquivos estáticos utilizados pelos templates `Jinja2` como imagens e arquivos css
-
-### `tests/`
-Contem a camada de teste da aplicação
-
-### Outros arquivos relevantes:
-- **`setup.md`** : Guia para o setup local do projeto.
-- **`requirements.txt`** : Lista as dependencias do projeto, incluindo versionamento.
-- `run` e `create_admin` : scripts para rodar a aplicação e criar um usuario, respectivamente.
-
  
