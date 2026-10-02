@@ -230,11 +230,11 @@ A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza
     Deve atuar na etapa de CD (deploy continuo), em ambientes de teste ou QA. Isso porque a analize interativa inclui de agentes e testes black-box, nescessitando que a aplicação esteja rodando. 
 
 ### CVSS
-**Ferramenta utilizada para o calculo do CVSS:** https://www.first.org/cvss/calculator/3.0
-
 OBS: *Consideram se aqui somente as vulneraveis existentes neste momento do trabalho.*
 
-![Clique aqui para ver o arquivo CVSS.csv](/docs/CVSS.csv)
+**Ferramenta utilizada para o calculo do CVSS:** https://www.first.org/cvss/calculator/3.0
+
+**Arquivo da tabela :** ![Clique aqui para ver o arquivo CVSS.csv](/docs/CVSS.csv)
 
 |   Categoria STRIDE                         | Vulnerabilidade                                                                                                                         |   Impacto Indesejado para o Negócio                                                                                     |   Score CVSS v3.0   |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------- |
