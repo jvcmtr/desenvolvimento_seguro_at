@@ -8,7 +8,6 @@ on:
 
 env:
   ENVIRONMENT: ${{ vars.ENVIRONMENT  }}
-  TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
   ADMIN_USERNAME: ${{ secrets.TEST_ADMIN_USERNAME }}
   ADMIN_PASSWORD: ${{ secrets.TEST_ADMIN_PASSWORD }}
   IS_TEST: True
@@ -31,10 +30,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.security.txt
 
-      - name: Security Gate 1 : SCA
+      - name: Security Gate 1 - SCA
         run: safety check -r requirements.txt --full-report
 
-      - name: Security Gate 2 : SAST
+      - name: Security Gate 2 - SAST
         run: bandit -r app/ -c bandit.yaml -lll -iii
 
   unit-tests:
