@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from app.models.consultas.Consulta import Consulta, StatusConsulta
 from .paciente_dto import PacienteViewModel
 from .profissional_saude_dto import ProfissionalSaudeViewModel

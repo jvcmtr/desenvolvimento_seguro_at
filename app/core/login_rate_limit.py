@@ -3,7 +3,7 @@ from fastapi import Request, status
 from app.config import settings
 
 MAX_ATTEMPTS = settings.LOGIN_MAX_ATTEMPTS
-WINDOW_SECONDS = LOGIN_ATTEMPTS_TIMESPAN_MINUTES * 60
+WINDOW_SECONDS = settings.LOGIN_ATTEMPTS_TIMESPAN_MINUTES * 60
 
 LOGIN_ATTEMPT_STORE: dict[str, list[float]] = {}
 
