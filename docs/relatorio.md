@@ -8,6 +8,7 @@
 
 ### Apresentação do trabalho
 A defesa em video deste assessment pode ser encontrada no seguinte link do google drive: 
+- https://drive.google.com/file/d/1Z0vEamDHU9sZqB9RN_Ay9KPSUlskB7ZC/view?usp=sharing
 
 
 ### Repositório

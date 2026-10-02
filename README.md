@@ -10,6 +10,10 @@ O relatório referente ao desenvolvimento deste projeto, assim como diagramas e 
 
 - [Clique aqui para ler o relatorio do Assessment](/docs/relatorio.md)
 
+### Apresentação do trabalho
+A defesa em video deste assessment pode ser encontrada no seguinte link do google drive: 
+- https://drive.google.com/file/d/1Z0vEamDHU9sZqB9RN_Ay9KPSUlskB7ZC/view?usp=sharing
+
 ### Executando o projeto
 Para executar o projeto, siga o passo a passo disponível em `/setup.md` e execute o seguinte comando:
 ```
