@@ -31,7 +31,7 @@ jobs:
           pip install -r requirements.security.txt
 
       - name: Security Gate 1 - SCA
-        run: safety check -r requirements.txt --full-report
+        run: safety scan -r requirements.txt
 
       - name: Security Gate 2 - SAST
         run: bandit -r app/ -c bandit.yaml -lll -iii

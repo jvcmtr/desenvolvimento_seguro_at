@@ -2,7 +2,7 @@
 fastapi==0.141.1
 uvicorn==0.53.0
 Jinja2==3.1.6
-python-multipart==0.0.20
+python-multipart>=0.0.31
 
 # AUTH
 passlib==1.7.4
