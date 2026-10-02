@@ -2,11 +2,13 @@ import os
 import pytest
 
 os.environ["IS_TEST"] = "True"
+os.environ["LOGIN_MAX_ATTEMPTS"] = "9999" # Para que o ratelimiting não bloqueie os testes
 
 from fastapi.testclient import TestClient
 from app.main import app
 from app.config import settings
 from app.database.database import get_session
+from app.tools.setup_db import setup_db
 
 @pytest.fixture(scope="function")
 def client():
@@ -14,7 +16,6 @@ def client():
         yield test_client
     
 
-@pytest.fixture(scope="session", autouse=True)
 def delete_db():
     db_url = settings.TARGET_DATABASE_URL
     if db_url.startswith("sqlite:///"):
@@ -26,3 +27,9 @@ def delete_db():
             print(f"\n[INFO] Banco de dados de teste deletado: {db_path}")
         else:
             print(f"\n[INFO] Banco de dados não encontrado em: {db_path}")
+
+
+@pytest.fixture(scope="session")
+def db():
+    delete_db()
+    setup_db()
