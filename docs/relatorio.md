@@ -230,13 +230,13 @@ A aplicação não possui logs de auditoria ou de segurança, o que invisibiliza
     Deve atuar na etapa de CD (deploy continuo), em ambientes de teste ou QA. Isso porque a analize interativa inclui de agentes e testes black-box, nescessitando que a aplicação esteja rodando. 
 
 ### CVSS
-**Fonte para o calculo do CVSS:** https://www.first.org/cvss/calculator/3.0
+**Ferramenta utilizada para o calculo do CVSS:** https://www.first.org/cvss/calculator/3.0
 
 OBS: *Consideram se aqui somente as vulneraveis existentes neste momento do trabalho.*
 
 ![Clique aqui para ver o arquivo CVSS.csv](/docs/CVSS.csv)
 
-|   Categoria STRIDE                         | Vulnerabilidade                                                                                                                         |   Impacto Indesejado para o Negócio                                                                                     |   Score CVSS v3.1   |
+|   Categoria STRIDE                         | Vulnerabilidade                                                                                                                         |   Impacto Indesejado para o Negócio                                                                                     |   Score CVSS v3.0   |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------- |
 |   Spoofing                                 | Numero de digitos, falta de "*rate limit*" e falta de proteção contra uso duplicado de código de MFA facilitam acessos via força bruta. | Torna a segunda etapa de autenticação facilmente forjada via ataques força bruta.                                       |   8.1 (Alto)        |
 |   Elevation of Privilege   /   Tampering   | Endpoint de criação de usuários não possui autenticação.                                                                                | Atacantes anônimos podem registrar contas livremente na aplicação com perfis como proficional de saude ou atendente.    |   8.6 (Alto)        |
